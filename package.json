@@ -1,0 +1,13 @@
+{
+  "name": "prismatest",
+  "version": "1.0.0",
+  "description": "small backoffice for an ecommerce",
+  "main": "index.js",
+  "author": "lapenji <laptomb@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
