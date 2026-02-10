@@ -7,16 +7,42 @@ export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
   async importFromCsv(csv: string) {
     try {
+      const existingProducts = await this.prisma.product.findMany({
+        select: { name: true },
+      });
+
+      const existingNames = new Set(
+        existingProducts.map((p) => p.name.toLowerCase()),
+      );
       const { validProducts, errors } = parseProductCsv(csv);
-      if (validProducts.length > 0) {
+
+      const toCreate = validProducts.filter(
+        (p) => !existingNames.has(p.name.toLowerCase()),
+      );
+      const toUpdate = validProducts.filter((p) =>
+        existingNames.has(p.name.toLowerCase()),
+      );
+      if (toCreate.length > 0) {
         await this.prisma.product.createMany({
-          data: validProducts,
+          data: toCreate,
         });
-        return {
-          inserted: validProducts.length,
-          errors,
-        };
       }
+      for (const row of toUpdate) {
+        await this.prisma.product.updateMany({
+          where: { name: row.name },
+          data: {
+            price: row.price,
+            discount: row.discount,
+            discountType: row.discountType,
+            description: row.description,
+          },
+        });
+      }
+      return {
+        created: toCreate.length,
+        updated: toUpdate.length,
+        errors,
+      };
     } catch (error) {
       throw new BadRequestException(error.message);
     }
