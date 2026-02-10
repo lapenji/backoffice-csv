@@ -30,7 +30,7 @@ export class DiscountValidator implements ValidatorConstraintInterface {
   }
 
   defaultMessage(args: ValidationArguments): string {
-    const obj = args.object as CreateProductDto;
+    const obj = args.object as any;
     const { discountType, price } = obj;
     const discount = args.value;
 

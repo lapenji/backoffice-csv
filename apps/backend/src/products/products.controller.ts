@@ -1,10 +1,12 @@
 import {
   BadRequestException,
+  Body,
   Controller,
   Delete,
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Query,
   UploadedFile,
@@ -23,6 +25,7 @@ import { FileUploadDto } from './dto/create-file.dto';
 import { ImportResponseDto } from './dto/import-response.dto';
 import { PaginatedProductsResponseDto } from './dto/paginated-product-response.dto';
 import { DeleteProductResponseDto } from './dto/product-delete.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductsService } from './products.service';
 
 @ApiTags('products')
@@ -80,5 +83,15 @@ export class ProductsController {
   })
   async delete(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.deleteProduct(id);
+  }
+
+  @Patch(':id')
+  @ApiParam({ name: 'id', type: Number, description: 'Product ID' })
+  @ApiBody({ type: UpdateProductDto })
+  async updateProduct(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: UpdateProductDto,
+  ) {
+    return this.productsService.update(id, data);
   }
 }

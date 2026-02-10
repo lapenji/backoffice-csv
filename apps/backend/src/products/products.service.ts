@@ -1,5 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { UpdateProductDto } from './dto/update-product.dto';
 import { parseProductCsv } from './utils/csv-parser';
 
 @Injectable()
@@ -79,5 +84,28 @@ export class ProductsService {
           ? 'Product deleted successfully'
           : 'Product not found',
     };
+  }
+
+  async update(id: number, data: UpdateProductDto) {
+    const hasFieldsToUpdate = Object.values(data).some(
+      (value) => value !== undefined,
+    );
+
+    if (!hasFieldsToUpdate) {
+      throw new BadRequestException(
+        'At least one field must be provided for update',
+      );
+    }
+    const result = await this.prisma.product.updateMany({
+      where: { id },
+      data,
+    });
+    if (result.count === 0) {
+      throw new NotFoundException(`Product with id ${id} not found`);
+    }
+
+    return this.prisma.product.findUnique({
+      where: { id },
+    });
   }
 }
