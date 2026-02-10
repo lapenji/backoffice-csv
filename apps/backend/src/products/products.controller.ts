@@ -35,6 +35,16 @@ export class ProductsController {
     if (!file) {
       throw new BadRequestException('csv file is mandatory!');
     }
+    const MAX_SIZE = 5 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+      throw new BadRequestException('File too large. Max 5MB allowed.');
+    }
+
+    if (file.mimetype !== 'text/csv') {
+      throw new BadRequestException(
+        'Invalid file type. Only CSV files are allowed.',
+      );
+    }
 
     const csv = file.buffer.toString('utf-8');
 
