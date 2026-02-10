@@ -6,9 +6,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ProductsService } from './products.service';
 
 @Controller('products')
 export class ProductsController {
+  constructor(private readonly productsService: ProductsService) {}
+
   @Post('import')
   @UseInterceptors(FileInterceptor('file'))
   async importProducts(@UploadedFile() file: Express.Multer.File) {
@@ -16,8 +19,8 @@ export class ProductsController {
       throw new BadRequestException('csv file is mandatory!');
     }
 
-    const csvContent = file.buffer.toString('utf-8');
+    const csv = file.buffer.toString('utf-8');
 
-    console.log(csvContent);
+    return this.productsService.importFromCsv(csv);
   }
 }
