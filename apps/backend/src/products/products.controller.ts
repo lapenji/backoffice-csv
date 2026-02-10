@@ -8,8 +8,16 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiOkResponse,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { FileUploadDto } from './dto/create-file.dto';
+import { ImportResponseDto } from './dto/import-response.dto';
+import { PaginatedProductsResponseDto } from './dto/paginated-product-response.dto';
 import { ProductsService } from './products.service';
 
 @ApiTags('products')
@@ -20,6 +28,10 @@ export class ProductsController {
   @Get()
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiOkResponse({
+    description: 'List of products with pagination',
+    type: PaginatedProductsResponseDto,
+  })
   async findAll(@Query('page') page = '1', @Query('limit') limit = '20') {
     return this.productsService.findAll(Number(page), Number(limit));
   }
@@ -29,6 +41,10 @@ export class ProductsController {
   @ApiBody({
     description: 'CSV file to import products',
     type: FileUploadDto,
+  })
+  @ApiOkResponse({
+    description: 'CSV file import results',
+    type: ImportResponseDto,
   })
   @UseInterceptors(FileInterceptor('file'))
   async importProducts(@UploadedFile() file: Express.Multer.File) {
