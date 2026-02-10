@@ -68,4 +68,16 @@ export class ProductsService {
       totalPages: Math.ceil(total / limit),
     };
   }
+
+  async deleteProduct(id: number) {
+    const deleted = await this.prisma.product.deleteMany({ where: { id } });
+
+    return {
+      deleted: deleted.count,
+      message:
+        deleted.count > 0
+          ? 'Product deleted successfully'
+          : 'Product not found',
+    };
+  }
 }

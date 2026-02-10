@@ -1,7 +1,10 @@
 import {
   BadRequestException,
   Controller,
+  Delete,
   Get,
+  Param,
+  ParseIntPipe,
   Post,
   Query,
   UploadedFile,
@@ -12,12 +15,14 @@ import {
   ApiBody,
   ApiConsumes,
   ApiOkResponse,
+  ApiParam,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { FileUploadDto } from './dto/create-file.dto';
 import { ImportResponseDto } from './dto/import-response.dto';
 import { PaginatedProductsResponseDto } from './dto/paginated-product-response.dto';
+import { DeleteProductResponseDto } from './dto/product-delete.dto';
 import { ProductsService } from './products.service';
 
 @ApiTags('products')
@@ -65,5 +70,15 @@ export class ProductsController {
     const csv = file.buffer.toString('utf-8');
 
     return this.productsService.importFromCsv(csv);
+  }
+
+  @Delete(':id')
+  @ApiParam({ name: 'id', description: 'Product ID', type: Number })
+  @ApiOkResponse({
+    description: 'Result of delete operation',
+    type: DeleteProductResponseDto,
+  })
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    return this.productsService.deleteProduct(id);
   }
 }
