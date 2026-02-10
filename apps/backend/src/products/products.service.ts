@@ -1,19 +1,22 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { parseProductCsv } from './utils/csv-parser';
 
 @Injectable()
 export class ProductsService {
-  importFromCsv(csv: string) {
+  constructor(private readonly prisma: PrismaService) {}
+  async importFromCsv(csv: string) {
     try {
       const { validProducts, errors } = parseProductCsv(csv);
-
-      return {
-        totalRows: validProducts.length + errors.length,
-        validRows: validProducts.length,
-        errorRows: errors.length,
-        errors,
-        validProducts,
-      };
+      if (validProducts.length > 0) {
+        await this.prisma.product.createMany({
+          data: validProducts,
+        });
+        return {
+          inserted: validProducts.length,
+          errors,
+        };
+      }
     } catch (error) {
       throw new BadRequestException(error.message);
     }
