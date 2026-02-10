@@ -77,13 +77,9 @@ export class ProductsService {
   async deleteProduct(id: number) {
     const deleted = await this.prisma.product.deleteMany({ where: { id } });
 
-    return {
-      deleted: deleted.count,
-      message:
-        deleted.count > 0
-          ? 'Product deleted successfully'
-          : 'Product not found',
-    };
+    if (deleted.count === 0) {
+      throw new NotFoundException('No product with id ' + id);
+    }
   }
 
   async update(id: number, data: UpdateProductDto) {
