@@ -1,5 +1,6 @@
 "use client";
 
+import ProductsTable from "@/components/ProductTable";
 import { getProducts } from "@/lib/api/products";
 import { useState } from "react";
 import useSWR from "swr";
@@ -24,9 +25,7 @@ export default function Home() {
   }
   return (
     <div>
-      {data?.data.map((p) => (
-        <h1>{p.name}</h1>
-      ))}
+      <ProductsTable products={data?.data || []} />
     </div>
   );
 }
