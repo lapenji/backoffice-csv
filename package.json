@@ -19,6 +19,6 @@
     "build:frontend": "yarn workspace frontend build",
     "build:all": "yarn prisma:migrate && yarn build:backend && yarn build:frontend",
     "start:all": "concurrently --names \"backend,frontend\" -c \"bgGreen,bgMagenta\" \"yarn workspace backend start\" \"yarn workspace frontend start\"",
-    "build-and-run": "docker compose up -d && sleep 5 && yarn build:all && yarn start:all"
+    "build-and-run": "yarn && docker compose up -d && sleep 5 && yarn build:all && yarn start:all"
   }
 }
