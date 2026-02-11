@@ -1,5 +1,6 @@
 "use client";
 
+import PaginationControls from "@/components/PaginationControls";
 import ProductsTable from "@/components/ProductTable";
 import { getProducts } from "@/lib/api/products";
 import { useState } from "react";
@@ -26,6 +27,14 @@ export default function Home() {
   return (
     <div>
       <ProductsTable products={data?.data || []} />
+
+      {data && data.totalPages > 1 && (
+        <PaginationControls
+          page={page}
+          totalPages={data.totalPages}
+          onPageChange={setPage}
+        />
+      )}
     </div>
   );
 }
