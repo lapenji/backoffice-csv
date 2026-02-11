@@ -50,7 +50,7 @@ export default function ProductsTable({ products, page }: Props) {
               <ProductActions
                 productId={p.id}
                 productName={p.name}
-                page={page}
+                itemsOnPage={products.length}
               />
             </TableCell>
           </TableRow>

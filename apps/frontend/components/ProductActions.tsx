@@ -8,13 +8,13 @@ import Link from "next/link";
 interface Props {
   productId: number;
   productName: string;
-  page?: number;
+  itemsOnPage?: number;
 }
 
 export default function ProductActions({
   productId,
   productName,
-  page,
+  itemsOnPage,
 }: Props) {
   const { handleDelete, isDeleting } = useDeleteProduct();
 
@@ -29,7 +29,7 @@ export default function ProductActions({
       <Button
         size="sm"
         variant="destructive"
-        onClick={() => handleDelete(productId, productName, page)}
+        onClick={() => handleDelete(productId, productName, itemsOnPage)}
         disabled={isDeleting}
       >
         <Trash />
