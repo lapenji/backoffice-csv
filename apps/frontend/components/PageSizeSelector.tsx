@@ -16,7 +16,7 @@ interface Props {
 export default function PageSizeSelector({ value, onChange }: Props) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm text-muted-foreground">Per pagina</span>
+      <span className="text-sm text-muted-foreground">Products per page</span>
 
       <Select value={String(value)} onValueChange={(v) => onChange(Number(v))}>
         <SelectTrigger className="w-22.5 h-8">

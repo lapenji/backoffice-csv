@@ -23,7 +23,7 @@ export default function PaginationControls({
       </Button>
 
       <span className="text-sm">
-        Pagina {page} di {totalPages}
+        Page {page} of {totalPages}
       </span>
 
       <Button
