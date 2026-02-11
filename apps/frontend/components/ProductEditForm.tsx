@@ -23,6 +23,7 @@ import {
 } from "@/lib/schemas/product";
 import { IProduct } from "@/types/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -32,6 +33,7 @@ interface ProductFormProps {
 }
 
 export default function ProductForm({ product, onSubmit }: ProductFormProps) {
+  const router = useRouter();
   const form = useForm<UpdateProductFormValues>({
     resolver: zodResolver(updateProductSchema),
     defaultValues: {
@@ -46,7 +48,6 @@ export default function ProductForm({ product, onSubmit }: ProductFormProps) {
   const discountType = form.watch("discountType");
   const discountError = form.formState.errors.discount?.message;
 
-  // Stati temporanei per input numerici
   const [priceInput, setPriceInput] = useState<string>(
     form.getValues("price")?.toString() ?? "",
   );
@@ -179,8 +180,16 @@ export default function ProductForm({ product, onSubmit }: ProductFormProps) {
             )}
           />
         )}
-
-        <Button type="submit">Update</Button>
+        <div className="flex gap-4">
+          <Button type="submit">Update</Button>
+          <Button
+            variant="secondary"
+            type="button"
+            onClick={() => router.back()}
+          >
+            Back
+          </Button>
+        </div>
       </form>
     </Form>
   );
