@@ -1,0 +1,51 @@
+name,description,price,discount,discountType
+Valid Product 1,Standard percentage discount,150,10,percentage
+Valid Product 2,No discount applied,50,,none
+Valid Product 3,Small amount discount,80,30,amount
+Valid Product 4,Maximum percentage allowed,200,99,percentage
+Valid Product 5,Minimal price product,0.01,0,none
+Valid Product 6,Zero discount with none,75,,none
+Valid Product 7,Mid-range percentage,150,50,percentage
+Valid Product 8,Large product small discount,500,100,amount
+Valid Product 9,Exact minimum price,1.00,0.50,amount
+Valid Product 10,High percentage discount,300,85,percentage
+Valid Product 11,Luxury item,1000,250,amount
+Valid Product 12,Budget friendly,25,5,percentage
+Valid Product 13,Premium product,450,99,percentage
+Valid Product 14,Everyday item,60,15,amount
+Valid Product 15,Special offer,120,30,percentage
+Valid Product 16,Clearance item,40,,none
+Valid Product 17,New arrival,90,20,percentage
+Valid Product 18,Bestseller,180,45,amount
+Valid Product 19,Limited edition,350,75,percentage
+Valid Product 20,Basic model,55,10,amount
+Valid Product 21,Advanced version,220,50,percentage
+Valid Product 22,Economy pack,30,,none
+Valid Product 23,Value bundle,95,25,amount
+Valid Product 24,Starter kit,70,15,percentage
+Valid Product 25,Complete set,400,150,amount
+Invalid Percentage Exceed,Too much discount,100,150,percentage
+Invalid Amount Equal,Discount equals price,50,50,amount
+Invalid Amount Greater,Discount exceeds price,30,45,amount
+Invalid Negative Price,Below minimum,0,5,percentage
+Invalid Zero Price,Exactly zero,-0.01,0,none
+,Invalid Name Missing,100,10,percentage
+Invalid Price NaN,Non-numeric price,abc,5,amount
+Invalid Discount NaN,Non-numeric discount,50,xyz,percentage
+Invalid Empty Percentage,Missing required discount,50,,percentage
+Invalid Empty Amount,Missing required discount,80,,amount
+Invalid Negative Discount,Below zero discount,60,-10,percentage
+Invalid Whitespace Price,Spaces in price," ",10,percentage
+Invalid Whitespace Discount,Spaces in discount,50," ",percentage
+Invalid Max Percentage,Exceeds 99 limit,100,100,percentage
+Invalid Percentage 101,Way over limit,200,101,percentage
+Invalid None NonZero,Discount with none type,70,5,none
+Invalid Amount Boundary,Discount not less than price,100,100,amount
+Invalid Tiny Negative,Slightly negative discount,80,-0.01,percentage
+Invalid Large Negative,Very negative discount,120,-50,amount
+Invalid Zero Price Exact,Price is exactly zero,0.00,0,none
+Invalid Negative Large,Large negative price,-100,10,percentage
+Invalid Price Infinity,Infinite price,Infinity,5,percentage
+Invalid Discount Infinity,Infinite discount,100,Infinity,percentage
+Invalid Mixed Whitespace,Multiple spaces in fields,"  ",  ,percentage
+Invalid Type Typo,Wrong discount type,50,10,fixed
