@@ -25,6 +25,7 @@ import { FileUploadDto } from './dto/create-file.dto';
 import { ImportResponseDto } from './dto/import-response.dto';
 import { PaginatedProductsResponseDto } from './dto/paginated-product-response.dto';
 import { DeleteProductResponseDto } from './dto/product-delete.dto';
+import { ProductResponseDto } from './dto/product-response.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductsService } from './products.service';
 
@@ -42,6 +43,13 @@ export class ProductsController {
   })
   async findAll(@Query('page') page = '1', @Query('limit') limit = '20') {
     return this.productsService.findAll(Number(page), Number(limit));
+  }
+
+  @Get(':id')
+  @ApiParam({ name: 'id', type: Number, description: 'Product ID' })
+  @ApiOkResponse({ description: 'Single product', type: ProductResponseDto })
+  async getOne(@Param('id', ParseIntPipe) id: number) {
+    return this.productsService.getProductById(id);
   }
 
   @Post('import')
