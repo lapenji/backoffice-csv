@@ -20,7 +20,7 @@ export default function ProductActions({
 
   return (
     <div className="flex justify-center gap-2">
-      <Link href={`/backoffice/products/${productId}`}>
+      <Link href={`/product/${productId}`}>
         <Button size="sm" variant="outline">
           <Edit />
         </Button>

@@ -1,4 +1,9 @@
-import { IDeleteProductResponse, IFetchProductsResponse } from "@/types/types";
+import {
+  IDeleteProductResponse,
+  IFetchProductsResponse,
+  IProduct,
+} from "@/types/types";
+import { UpdateProductFormValues } from "../schemas/product";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 export async function getProducts(page: number, limit: number) {
@@ -15,10 +20,36 @@ export async function deleteProduct(id: number) {
   const res = await fetch(`${API_URL}/products/${id}`, {
     method: "DELETE",
   });
-  console.log("RES", res);
   if (!res.ok) throw new Error("Error deleting product");
 
   const data = await res.json();
-  console.log("DATA", data);
   return data as IDeleteProductResponse;
+}
+
+export async function getProduct(id: number) {
+  const res = await fetch(`${API_URL}/products/${id}`);
+  if (!res.ok) throw new Error("Error fetching product");
+
+  const data = await res.json();
+
+  return data as IProduct;
+}
+
+export async function updateProduct(
+  id: number,
+  updateData: UpdateProductFormValues,
+) {
+  const res = await fetch(`${API_URL}/products/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateData),
+  });
+
+  if (!res.ok) throw new Error("Error fetching product");
+
+  const data = await res.json();
+
+  return data as IProduct;
 }
