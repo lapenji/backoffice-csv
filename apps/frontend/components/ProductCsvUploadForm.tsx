@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { uploadProductCsv } from "@/lib/api/products";
 import { CSVUploadResponse } from "@/types/types";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -36,6 +37,8 @@ export default function ProductCsvUploadForm({
   const [result, setResult] = useState<CSVUploadResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const router = useRouter();
+
   const handleSubmit = async (values: FormValues) => {
     const file = values.file?.[0];
     if (!file) return setError("Please select a CSV file");
@@ -56,7 +59,7 @@ export default function ProductCsvUploadForm({
   };
 
   return (
-    <div className="max-w-xl p-4 space-y-6 border rounded bg-gray-50">
+    <div className="p-4 space-y-6 border rounded bg-gray-50">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
           <FormField
@@ -101,6 +104,9 @@ export default function ProductCsvUploadForm({
               </ul>
             </div>
           )}
+          <Button className="mt-4" onClick={() => router.replace("/")}>
+            Back to products
+          </Button>
         </div>
       )}
     </div>
