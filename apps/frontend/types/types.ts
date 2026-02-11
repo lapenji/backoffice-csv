@@ -18,3 +18,8 @@ export interface IProduct {
   finalPrice: number;
   createdAt: string;
 }
+
+export interface IDeleteProductResponse {
+  deleted: number;
+  message?: string;
+}
