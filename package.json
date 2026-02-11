@@ -7,7 +7,17 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+    "apps/*"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "scripts": {
+    "prisma:migrate": "cd apps/backend && npx prisma migrate deploy",
+    "build:backend": "yarn workspace backend build",
+    "build:frontend": "yarn workspace frontend build",
+    "build:all": "yarn prisma:migrate && yarn build:backend && yarn build:frontend",
+    "start:all": "concurrently --names \"backend,frontend\" -c \"bgGreen,bgMagenta\" \"yarn workspace backend start\" \"yarn workspace frontend start\"",
+    "build-and-run": "yarn build:all && docker compose up -d && yarn start:all"
+  }
 }
