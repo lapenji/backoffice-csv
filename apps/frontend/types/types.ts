@@ -23,3 +23,14 @@ export interface IDeleteProductResponse {
   deleted: number;
   message?: string;
 }
+
+export interface CsvRowError {
+  rowNumber: number;
+  errorMessage: string;
+}
+
+export interface CSVUploadResponse {
+  created: number;
+  updated: number;
+  errors: CsvRowError[];
+}

@@ -1,4 +1,5 @@
 import {
+  CSVUploadResponse,
   IDeleteProductResponse,
   IFetchProductsResponse,
   IProduct,
@@ -52,4 +53,24 @@ export async function updateProduct(
   const data = await res.json();
 
   return data as IProduct;
+}
+
+export async function uploadProductCsv(file: File): Promise<CSVUploadResponse> {
+  if (!file) throw new Error("No file provided");
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch(`${API_URL}/products/import`, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => null);
+    throw new Error(errData?.message || "Error uploading CSV");
+  }
+
+  const data = await res.json();
+  return data as CSVUploadResponse;
 }
