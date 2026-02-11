@@ -84,6 +84,11 @@ export class ProductsService {
     if (deleted.count === 0) {
       throw new NotFoundException('No product with id ' + id);
     }
+
+    return {
+      deleted: deleted.count,
+      message: 'Product deleted successfully',
+    };
   }
 
   async update(id: number, data: UpdateProductDto) {
