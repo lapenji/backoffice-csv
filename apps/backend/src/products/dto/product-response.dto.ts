@@ -20,6 +20,9 @@ export class ProductResponseDto {
   @ApiProperty({ example: 10 })
   discount: number;
 
+  @ApiProperty({ example: 10 })
+  finalPrice: number;
+
   @ApiProperty({ example: '2026-02-10T12:00:00Z' })
   createdAt: Date;
 }

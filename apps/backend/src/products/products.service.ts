@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { DiscountType } from 'generated/prisma/enums';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { parseProductCsv } from './utils/csv-parser';
@@ -64,9 +65,12 @@ export class ProductsService {
     });
 
     const total = await this.prisma.product.count();
-
+    const productsWithFinalPrice = products.map((p) => ({
+      ...p,
+      finalPrice: this.calculateFinalPrice(p.price, p.discount, p.discountType),
+    }));
     return {
-      data: products,
+      data: productsWithFinalPrice,
       page,
       limit,
       total,
@@ -103,5 +107,25 @@ export class ProductsService {
     return this.prisma.product.findUnique({
       where: { id },
     });
+  }
+
+  private calculateFinalPrice(
+    price: number,
+    discount?: number | null,
+    discountType?: DiscountType,
+  ): number {
+    if (!discount || !discountType || discountType === 'none') return price;
+
+    let final = price;
+
+    if (discountType === 'percentage') {
+      final = price - price * (discount / 100);
+    }
+
+    if (discountType === 'amount') {
+      final = price - discount;
+    }
+
+    return Number(Math.max(final, 0).toFixed(2));
   }
 }
