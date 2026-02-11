@@ -3,19 +3,25 @@
 import PaginationControls from "@/components/PaginationControls";
 import ProductsTable from "@/components/ProductTable";
 import { getProducts } from "@/lib/api/products";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import useSWR from "swr";
 
 export default function Home() {
-  const [page, setPage] = useState(1);
-  const limit = 10;
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const page = Number(searchParams.get("page") ?? 1);
+  const limit = Number(searchParams.get("limit") ?? 10);
+
   const { data, error, isLoading } = useSWR(
-    ["products", page],
+    ["products", page, limit],
     () => getProducts(page, limit),
-    {
-      keepPreviousData: true,
-    },
+    { keepPreviousData: true },
   );
+
+  const handlePageChange = (newPage: number) => {
+    router.push(`/?page=${newPage}&limit=${limit}`);
+  };
 
   if (error) {
     console.log("ERRORE", error);
@@ -32,7 +38,7 @@ export default function Home() {
         <PaginationControls
           page={page}
           totalPages={data.totalPages}
-          onPageChange={setPage}
+          onPageChange={handlePageChange}
         />
       )}
     </div>
