@@ -7,21 +7,24 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { IProduct } from "@/types/types";
+import ProductActions from "./ProductActions";
 
 interface Props {
   products: IProduct[];
+  page?: number;
 }
 
-export default function ProductsTable({ products }: Props) {
+export default function ProductsTable({ products, page }: Props) {
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Nome</TableHead>
-          <TableHead>Descrizione</TableHead>
-          <TableHead className="w-30">Prezzo</TableHead>
-          <TableHead className="w-30">Sconto</TableHead>
-          <TableHead className="w-35">Prezzo Finale</TableHead>
+          <TableHead>Name</TableHead>
+          <TableHead>Description</TableHead>
+          <TableHead className="w-30">Price</TableHead>
+          <TableHead className="w-30">Discount</TableHead>
+          <TableHead className="w-35">Final price</TableHead>
+          <TableHead className="w-35">Actions</TableHead>
         </TableRow>
       </TableHeader>
 
@@ -42,6 +45,13 @@ export default function ProductsTable({ products }: Props) {
 
             <TableCell className="font-semibold">
               € {p.finalPrice.toFixed(2)}
+            </TableCell>
+            <TableCell>
+              <ProductActions
+                productId={p.id}
+                productName={p.name}
+                page={page}
+              />
             </TableCell>
           </TableRow>
         ))}

@@ -26,7 +26,7 @@ export default function Home() {
   }
   return (
     <div>
-      <ProductsTable products={data?.data || []} />
+      <ProductsTable products={data?.data || []} page={page} />
 
       {data && data.totalPages > 1 && (
         <PaginationControls
